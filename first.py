@@ -27,7 +27,6 @@ from mysql.connector import connect, Error
 #     print(e)
 
 
-# JOIN
 
 
 # show
@@ -303,6 +302,88 @@ ratings_records = [
 
 # Фильтрация результатов с помощью WHERE cсбор больше 300 млн.
 
+# try:
+#     with connect(
+#         host="localhost",
+#         user="root",
+#         password=getpass,
+#         database="online_movie_rating",
+#     ) as connection:
+#         select_movies_query = """
+#         SELECT title, collection_in_mil FROM movies WHERE collection_in_mil > 300 ORDER BY collection_in_mil DESC
+#         """
+#         with connection.cursor() as cursor:
+#             cursor.execute(select_movies_query)
+#             for movie in cursor.fetchall():
+#                 print(movie)
+# except Error as e:
+#     print(e)
+
+
+
+# JOIN
+
+select_movies_query = """
+SELECT title, AVG(rating) as average_rating
+FROM ratings
+INNER JOIN movies
+    ON movies.id = ratings.movie_id
+GROUP BY movie_id
+ORDER BY average_rating DESC
+LIMIT 5
+"""
+# try:
+#     with connect(
+#         host="localhost",
+#         user="root",
+#         password=getpass,
+#         database="online_movie_rating",
+#     ) as connection:
+#         select_movies_query = """
+#         SELECT title, collection_in_mil FROM movies WHERE collection_in_mil > 300 ORDER BY collection_in_mil DESC
+#         """
+#         with connection.cursor() as cursor:
+#             cursor.execute(select_movies_query)
+#             for movie in cursor.fetchall():
+#                 print(movie)
+# except Error as e:
+#     print(e)
+
+
+
+
+# Update
+
+update_query = """
+UPDATE
+    reviewers
+SET
+    last_name = "Sterling!!!!"
+WHERE
+    first_name = "Amy"
+"""
+
+# try:
+#     with connect(
+#         host="localhost",
+#         user="root",
+#         password=getpass,
+#         database="online_movie_rating",
+#     ) as connection:
+#         select_movies_query = """
+#         SELECT title, collection_in_mil FROM movies WHERE collection_in_mil > 300 ORDER BY collection_in_mil DESC
+#         """
+#         with connection.cursor() as cursor:
+#             cursor.execute(update_query)
+#             connection.commit()
+# except Error as e:
+#     print(e)
+
+
+
+# /DELETE
+
+
 try:
     with connect(
         host="localhost",
@@ -311,11 +392,10 @@ try:
         database="online_movie_rating",
     ) as connection:
         select_movies_query = """
-        SELECT title, collection_in_mil FROM movies WHERE collection_in_mil > 300 ORDER BY collection_in_mil DESC
+        DELETE FROM reviewers WHERE first_name = 'John'
         """
         with connection.cursor() as cursor:
-            cursor.execute(select_movies_query)
-            for movie in cursor.fetchall():
-                print(movie)
+            cursor.execute(update_query)
+            connection.commit()
 except Error as e:
     print(e)
